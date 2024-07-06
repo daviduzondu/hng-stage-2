@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config.js';
 import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
+import { pick } from './utils/pick.js';
 
 const app: Express = express();
 const port: number = Number(process.env.PORT) || 2000;
@@ -19,8 +20,9 @@ app.use('/api/users', userRouter);
 
 // Global error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
+    console.log(Object.keys(err));
     // @ts-ignore
-    res.status(req.status || 500).json({ status: "Bad request", message: err.message });
+    res.status(err.statusCode || 500).json({ status: err.name, ...pick(err, Object.keys(err).filter(x => x !== 'name')) });
 });
 
 app.listen(port, async () => {

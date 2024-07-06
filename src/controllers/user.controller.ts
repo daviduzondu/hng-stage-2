@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/User.js';
+import ApiError from '../errors/Api.error.js';
 
 export async function getUser(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
-        // const user = (await User.findUserById(id)).rows[0];
-
-        // if (!user) throw new Error(`No user with id "${id}" found`);
         // @ts-ignore
         const { userId, firstName, email, lastName, phone } = req.user;
 
@@ -23,10 +21,6 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
         })
     } catch (error: any) {
         console.error(error);
-        return res.status(401).json({
-            status: "Bad request",
-            message: error.message,
-            statusCode: 401
-        })
+        next(new ApiError(error.message, 401, 'Bad request'))
     }
 }

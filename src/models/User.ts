@@ -1,6 +1,7 @@
 import * as db from '../db/index.js';
 import { nanoid } from 'nanoid';
 import Model from './Model.js';
+import ApiError from '../errors/Api.error.js';
 
 interface UserInterface {
     userId: string,
@@ -29,7 +30,7 @@ class User extends Model implements UserInterface {
         const { rows } = await User.findUserByEmail(this.email);
 
         if (rows.length > 0) {
-            throw new Error("Email already taken");
+            throw new ApiError("Email already taken", 409, 'Bad request');
         }
 
         const result = await db.query('INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [this.userId, this.firstName, this.lastName, this.email, this.password, this.phone]);

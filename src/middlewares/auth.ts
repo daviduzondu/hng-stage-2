@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../models/User.js";
 import jwt from 'jsonwebtoken';
+import ApiError from "../errors/Api.error.js";
 
 export async function authorize(req: Request, res: Response, next: NextFunction) {
     try {
@@ -8,15 +9,14 @@ export async function authorize(req: Request, res: Response, next: NextFunction)
         const token: string = req.headers.authorization!.split(' ')[1];
         // @ts-ignore
         const { userId } = jwt.verify(token, process.env.JWT_KEY);
-        if (!user) throw new Error(`User with id ${req.params.id} not found`)
-        if (userId !== req.params.id) throw new Error("You are not allowed to perform this action");
+        if (!user) throw new ApiError(`User with id ${req.params.id} not found`)
+        if (userId !== req.params.id) throw new ApiError("You are not allowed to perform this action", 403, 'UnauthorizedRequestError');
         // @ts-ignore
         req.user = user;
         next();
     } catch (error) {
         // @ts-ignore
-        req.status=401;
+        req.status = 401;
         return next(error);
     }
-
 };

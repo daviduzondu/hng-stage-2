@@ -4,6 +4,7 @@ import { Organisation } from "../models/Organisation.js";
 import * as client from '../db/index.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import ApiError from "../errors/Api.error.js";
 
 function getAccessToken(email: string, userId: string) {
     return jwt.sign({ email, userId },
@@ -34,13 +35,8 @@ export async function registerUser(req: Request, res: Response, next: NextFuncti
             }
         });
     } catch (error) {
-        console.error(error);
         client.rollback();
-        res.status(400).json({
-            "status": "Bad request",
-            "message": "Registration unsuccessful",
-            "statusCode": 400
-        })
+        next(new ApiError('Registration unsuccessful', 400, 'Bad request'))
     }
 }
 
@@ -50,12 +46,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         // Find user
         const user = (await User.findUserByEmail(email)).rows[0];
 
-        if (!user?.email) throw new Error("Email does not exist");
+        if (!user?.email) throw new ApiError("Email does not exist", 404, 'Bad request');
         const { userId, email: emailInDB, password: hashedPw, firstName, lastName, phone } = user;
         // Validate password
         const passwordMatch = await bcrypt.compare(password, hashedPw);
 
-        if (!passwordMatch) throw new Error("Incorrect password");
+        if (!passwordMatch) throw new ApiError("Incorrect password", 401, 'Bad request');
 
         const accessToken = getAccessToken(email, userId)
         res.status(200).json({
@@ -69,11 +65,6 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             }
         })
     } catch (error) {
-        console.log(error);
-        return res.status(401).json({
-            "status": "Bad request",
-            "message": "Authentication failed",
-            "statusCode": 401
-        })
+        next(new ApiError('Authentication failed', 401, 'Bad request'));
     }
 }
