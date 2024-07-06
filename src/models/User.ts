@@ -37,8 +37,11 @@ class User extends Model implements UserInterface {
     }
 
     static async findUserByEmail(email: string) {
-        const result = await db.query('SELECT * FROM users where email = $1', [email]);
-        return result;
+        return await db.query('SELECT * FROM users where email = $1', [email]);
+    }
+
+    static async findUserById(id: string) {
+        return await db.query('SELECT * FROM users where "userId" = $1', [id]);
     }
 }
 

@@ -48,11 +48,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
     try {
         // Find user
-        const { password: passwordInDB, email: emailInDB, userId, firstName, lastName, phone } = (await User.findUserByEmail(email)).rows[0];
+        const user = (await User.findUserByEmail(email)).rows[0];
 
-        if (!emailInDB) throw new Error("Email does not exist");
+        if (!user?.email) throw new Error("Email does not exist");
+        const { userId, email: emailInDB, password: hashedPw, firstName, lastName, phone } = user;
         // Validate password
-        const passwordMatch = await bcrypt.compare(password, passwordInDB);
+        const passwordMatch = await bcrypt.compare(password, hashedPw);
 
         if (!passwordMatch) throw new Error("Incorrect password");
 
@@ -69,14 +70,10 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         })
     } catch (error) {
         console.log(error);
-        res.status(401).json({
+        return res.status(401).json({
             "status": "Bad request",
             "message": "Authentication failed",
             "statusCode": 401
         })
     }
-}
-
-export async function getUser(req: Request, res: Response, next: NextFunction) {
-
 }

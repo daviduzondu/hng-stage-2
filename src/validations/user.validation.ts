@@ -18,7 +18,10 @@ export const loginUser = {
 }
 
 export const getUser = {
+    headers: Joi.object().keys({
+        authorization: Joi.string().required().regex(/^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/)
+    }).unknown(),
     params: Joi.object().keys({
-        id: Joi.string().required()
+        id: Joi.string().required().min(4)
     })
 }

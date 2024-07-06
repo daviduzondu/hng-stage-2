@@ -20,7 +20,7 @@ Acceptance Criteria
 }
 ```
 
-- Provide validation for all fields. When there’s a validation error, return status code `422` with payload:
+  - Provide validation for all fields. When there’s a validation error, return status code `422` with payload:
 
 ```json
 {

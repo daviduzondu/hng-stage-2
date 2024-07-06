@@ -13,10 +13,10 @@ function formatErrorMessage(originalMessage: string, field: string | number): st
 }
 
 const validate = (schema: Record<string, any>) => (req: Request, res: Response, next: NextFunction) => {
-    const validSchema = pick(schema, ['header', 'params', 'body']);
-    const object = pick(req, Object.keys(validSchema));
-    const { value, error } = Joi.compile(validSchema).validate(object, { abortEarly: false });
-
+    const validSchema = pick(schema, ['headers', 'params', 'body']);
+    const selectedFields = pick({ ...req, headers: req.headers }, Object.keys(validSchema));
+    const { value, error } = Joi.compile(validSchema).validate(selectedFields, { abortEarly: false });
+    // console.log(value);
     if (error) {
         const validationErrors = error.details.map(x => ({
             field: x.path.reverse()[0],
