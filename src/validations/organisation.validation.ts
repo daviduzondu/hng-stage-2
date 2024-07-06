@@ -7,14 +7,25 @@ export const createOrganisation = {
     })
 }
 
+export const getOrganisations = {
+    headers: Joi.object().keys({
+        authorization: Joi.string().required()
+    }).unknown()
+}
+
 export const getOrganisation = {
+    headers: Joi.object().keys({
+        authorization: Joi.string().required()
+    }).unknown(),
     params: {
         orgId: Joi.string().required()
     }
 }
 
 export const addUserToOrg = {
-    ...getOrganisation,
+    params: {
+        orgId: Joi.string().required()
+    },
     body: {
         userId: Joi.string().required()
     }

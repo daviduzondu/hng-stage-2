@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config.js';
 import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
+import organisationRouter from './routes/organisation.route.js';
 import { pick } from './utils/pick.js';
 
 const app: Express = express();
@@ -17,6 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 // Auth router
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/organisations', organisationRouter);
 
 // Global error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {

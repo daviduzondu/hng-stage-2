@@ -5,12 +5,12 @@ import ApiError from "../errors/Api.error.js";
 
 export async function authorize(req: Request, res: Response, next: NextFunction) {
     try {
-        const user = (await User.findUserById(req.params.id)).rows[0];
         const token: string = req.headers.authorization!.split(' ')[1];
         // @ts-ignore
         const { userId } = jwt.verify(token, process.env.JWT_KEY);
+        const user = (await User.findUserById(userId)).rows[0];
         if (!user) throw new ApiError(`User with id ${req.params.id} not found`)
-        if (userId !== req.params.id) throw new ApiError("You are not allowed to perform this action", 403, 'UnauthorizedRequestError');
+        if (req.params.id && (userId !== req.params.id)) throw new ApiError("You are not allowed to perform this action", 403, 'UnauthorizedRequestError');
         // @ts-ignore
         req.user = user;
         next();
