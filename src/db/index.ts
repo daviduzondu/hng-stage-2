@@ -14,8 +14,8 @@ export async function begin() {
     return client.query('BEGIN');
 }
 
-export async function query(text: string, params: any[], callback?: any) {
-    return client.query(text, params, callback);
+export function query(text: string, params: any[]) {
+    return client.query(text, params);
 }
 
 export async function commit() {

@@ -13,7 +13,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Auth router
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 
 // Global error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {

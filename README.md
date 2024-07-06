@@ -64,7 +64,7 @@ Organisation Model:
     "name": "string", // Required and cannot be null
     "description": "string",
 }
-```
+``` 
 Endpoints:
 
 - `[POST] /auth/register` Registers a users and creates a default organisation Register request body:
