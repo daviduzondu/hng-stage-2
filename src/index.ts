@@ -22,7 +22,6 @@ app.use('/api/organisations', organisationRouter);
 
 // Global error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
-    console.log(Object.keys(err));
     // @ts-ignore
     res.status(err.statusCode || 500).json({ status: err.name, ...pick(err, Object.keys(err).filter(x => x !== 'name')) });
 });
