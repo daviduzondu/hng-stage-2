@@ -1,6 +1,10 @@
 {
-    "cSpell.words": [
-        "organisation",
-        "Organisation"
-    ]
+    "cSpell.customDictionaries": {
+        "custom-dictionary-workspace": {
+            "name": "custom-dictionary-workspace",
+            "path": "${workspaceFolder:stage-2}/.cspell/custom-dictionary-workspace.txt",
+            "addWords": true,
+            "scope": "workspace"
+        }
+    }
 }
