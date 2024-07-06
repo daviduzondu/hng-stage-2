@@ -262,6 +262,7 @@ Write appropriate unit tests to cover
 **End-to-End Test Requirements for the Register Endpoint**
 
 The goal is to ensure the `POST /auth/register` endpoint works correctly by performing end-to-end tests. The tests should cover successful user registration, validation errors, and database constraints.  
+
 Directory Structure:
 
 - The test file should be named `auth.spec.ext` (ext is the file extension of your chosen language) inside a folder named `tests` . For example `tests/auth.spec.ts` assuming I’m using Typescript
