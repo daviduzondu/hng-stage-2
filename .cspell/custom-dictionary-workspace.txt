@@ -1,2 +1,6 @@
 Organisation
 organisations
+PGDATABASE
+PGHOST
+PGPASSWORD
+PGPORT
