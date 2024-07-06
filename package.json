@@ -1,12 +1,29 @@
 {
   "name": "stage-2",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "env-cmd -f .env.dev nodemon src/index.ts",
+    "prod": "env-cmd -f .env node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "description": ""
+  "description": "My entry for the Stage 2 backend task in the HNG Internship program",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "env-cmd": "^10.1.0",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-postgres": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  }
 }
