@@ -67,9 +67,7 @@ export async function addUserToOrg(req: Request, res: Response, next: NextFuncti
     const { orgId } = req.params;
     try {
 
-        // Check that user is not already in organisation
-        const orgs = (await Organisation.getOrgs(userId)).rows;
-        if (orgs.find(x => x.userId === userId)) throw new ApiError(`User with id ${userId} already in organisation`, 409, 'Bad request');
+       
         // Check that user 
         await Organisation.addUserToOrg(userId, orgId);
         return res.status(200).json({

@@ -254,11 +254,11 @@ Successful response: Return the payload below with a `200` success status code
 ```
 
 ## Unit Testing  
-Write appropriate unit tests to cover
+**Write appropriate unit tests to cover
 
 - Token generation - Ensure token expires at the correct time and correct user details is found in token.
 - Organisation - Ensure users can’t see data from organisations they don’t have access to.
-
+**
 **End-to-End Test Requirements for the Register Endpoint**
 
 The goal is to ensure the `POST /auth/register` endpoint works correctly by performing end-to-end tests. The tests should cover successful user registration, validation errors, and database constraints.  
