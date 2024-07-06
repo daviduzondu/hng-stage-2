@@ -23,7 +23,7 @@ export async function registerUser(req: Request, res: Response, next: NextFuncti
         const newOrg = await new Organisation(orgName, orgDescription).create();
         await client.query(`INSERT INTO users_organisations VALUES($1, $2)`, [newUser.userId, newOrg.orgId]);
 
-        const user = { firstName, lastName, email, phone };
+        const user = { userId: newUser.userId, firstName, lastName, email, phone };
         const accessToken = getAccessToken(email, newUser.userId);
         await client.commit();
         res.status(201).json({
