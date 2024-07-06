@@ -26,15 +26,20 @@ class User extends Model implements UserInterface {
 
 
     async create() {
+        const { rows } = await User.findUserByEmail(this.email);
+
+        if (rows.length > 0) {
+            throw new Error("Email already taken");
+        }
+
         const result = await db.query('INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [this.userId, this.firstName, this.lastName, this.email, this.password, this.phone]);
         return Object.assign(this, result);
     }
-    // async create(): Promise<any> {
-    //     return new Promise<any>((resolve) => {
-    //     })
-    //     // const createNewOrganisation = db.query('INSERT INTO organisations VALUES ($1, $2, $3) RETURNING *', [orgId, nam])
-    //     // console.log(result);
-    // }
+
+    static async findUserByEmail(email: string) {
+        const result = await db.query('SELECT * FROM users where email = $1', [email]);
+        return result;
+    }
 }
 
 export { User };

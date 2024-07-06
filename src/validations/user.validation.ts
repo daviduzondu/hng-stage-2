@@ -18,9 +18,6 @@ export const loginUser = {
 }
 
 export const getUser = {
-    header: Joi.object().keys({
-        Authorization: Joi.string().required()
-    }),
     params: Joi.object().keys({
         id: Joi.string().required()
     })
