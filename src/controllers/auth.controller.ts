@@ -60,7 +60,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
                 }
             }
         })
-    } catch (error) {
+    } catch (error: any) {
+        if (error.name === 'ApiError') next(error);
         next(new ApiError('Authentication failed', 401, 'Bad request'));
     }
 }

@@ -13,8 +13,8 @@ import path from 'path';
 // @ts-ignore
 const app: Express = express();
 const port: number = Number(process.env.PORT) || 3030;
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server!");

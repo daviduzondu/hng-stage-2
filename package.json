@@ -6,7 +6,6 @@
   "scripts": {
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --detectOpenHandles --verbose --testTimeout=100000",
     "dev": "env-cmd -f .env.dev nodemon --exec 'node --loader ts-node/esm' ./src/index.ts",
-    "dev-temp": "nodemon --exec 'node --loader ts-node/esm' ./src/index.ts",
     "start": "env-cmd -f .env node dist/index.js",
     "build": "npx tsc"
   },

@@ -1,10 +1,12 @@
 import 'dotenv/config.js';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import request from 'supertest';
+import { jest } from '@jest/globals';
 import { faker } from '@faker-js/faker';
+import { app } from '../src/index.js';
 import { getAccessToken } from '../src/utils/generateAccessToken.js';
 
-const baseUrl = 'https://hng-stage-2-production-cb35.up.railway.app';
+const baseUrl = "https://hng-stage-2-production-cb35.up.railway.app";
 
 const endpoints = {
     REGISTER_USER: '/api/auth/register',
@@ -37,11 +39,11 @@ let fetchUser2OrgResponse: any;
 
 // Token generation and expiry test
 describe('Token Generation and Expiry', () => {
-    it('should generate a token that expires in 30 minutes', () => {
-        const user = { email: 'user@example.com', userId: 'user123' };
-        const token = getAccessToken(user.email, user.userId);
-        const decodedToken = jwt.verify(token, process.env.JWT_KEY!) as JwtPayload;
+    const user = { email: 'user@example.com', userId: 'user123' };
+    const token = getAccessToken(user.email, user.userId, 'supersecretkey');
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY!) as JwtPayload;
 
+    it('should generate a token that expires in 30 minutes', () => {
         const currentTime = Math.floor(Date.now() / 1000);
         const expirationTime = decodedToken.exp;
 
@@ -50,10 +52,6 @@ describe('Token Generation and Expiry', () => {
     });
 
     it('should contain correct user details in the token', () => {
-        const user = { email: 'user@example.com', userId: 'user123' };
-        const token = getAccessToken(user.email, user.userId);
-        const decodedToken = jwt.verify(token, process.env.JWT_KEY!) as JwtPayload;
-
         expect(decodedToken.userId).toBe(user.userId);
         expect(decodedToken.email).toBe(user.email);
     });
@@ -176,7 +174,7 @@ describe('User Login', () => {
         const res = await request(baseUrl)
             .post(endpoints.LOGIN)
             .send({ email: testUser1Credentials.email, password: 'incorrectpassword' });
-
+        console.log(res);
         expect(res.status).toBe(401);
         expect(res.body).toHaveProperty('status', 'Bad request');
         expect(res.body).toHaveProperty('message', 'Authentication failed');
