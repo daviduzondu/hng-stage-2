@@ -5,12 +5,7 @@ import * as client from '../db/index.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import ApiError from "../errors/Api.error.js";
-
-function getAccessToken(email: string, userId: string) {
-    return jwt.sign({ email, userId },
-        // @ts-ignore
-        process.env.JWT_KEY, { expiresIn: '30m' })
-}
+import { getAccessToken } from "../utils/generateAccessToken.js";
 
 export async function registerUser(req: Request, res: Response, next: NextFunction) {
     const { firstName, lastName, email, password, phone } = req.body;

@@ -28,9 +28,10 @@ export async function getOrganisation(req: Request, res: Response, next: NextFun
         // @ts-ignore
         const { orgId } = req.params;
         const org = (await Organisation.getOrg(orgId)).rows[0];
+        if (!org) throw new ApiError("Organisation does not exist", 404, "Bad request");
         res.status(201).json({
             status: 'success',
-            message: `Organisation with id ${orgId}`,
+            message: `Organisation with id ${orgId} found`,
             data: org
         })
     } catch (error) {

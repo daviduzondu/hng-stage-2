@@ -2,6 +2,7 @@ import * as client from '../db/index.js';
 import { nanoid } from 'nanoid';
 import Model from './Model.js';
 import ApiError from '../errors/Api.error.js';
+import { User } from './User.js';
 
 interface OrgInterface {
     orgId: string,
@@ -39,14 +40,18 @@ class Organisation extends Model implements OrgInterface {
     }
 
     static async addUserToOrg(userId: string, orgId: string) {
+        // Check that userId actually exists
+        const user = (await User.findUserById(userId)).rows[0];
+        if (!user) throw new ApiError(`User with id ${userId} does not exist`, 404);
+
         // Check that organisation does not exist
         const org = (await Organisation.getOrg(orgId)).rows[0];
-        if (!org) throw new ApiError(`Organisation with id ${orgId} does not exist`);
+        if (!org) throw new ApiError(`Organisation with id ${orgId} does not exist`, 404);
 
         // Check that user is not already in organisation
         const orgs = (await Organisation.getOrgs(userId)).rows;
         if (orgs.find(x => x.organisations_orgId === orgId)) throw new ApiError(`User with id ${userId} already in organisation`, 409, 'Bad request');
-        
+
         // Add the userId and orgId to the junction table
         return await client.query(`INSERT INTO users_organisations VALUES($1, $2)`, [userId, orgId]);
     }
