@@ -1,5 +1,6 @@
 import express, { ErrorRequestHandler, Express, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import 'dotenv/config.js';
 import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
@@ -9,7 +10,7 @@ import { pick } from './utils/pick.js';
 const app: Express = express();
 const port: number = Number(process.env.PORT) || 2000;
 app.use(bodyParser.json());
-
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server!");
