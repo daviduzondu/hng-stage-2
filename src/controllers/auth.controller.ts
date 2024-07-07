@@ -55,7 +55,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             "data": {
                 "accessToken": accessToken,
                 "user": {
-                    userId, firstName, lastName, emailInDB, phone
+                    userId, firstName, lastName, email, phone
                 }
             }
         })

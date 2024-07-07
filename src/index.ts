@@ -29,3 +29,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
 app.listen(port, async () => {
     console.log(`[server]: Server is running at http://localhost:${port}.`);
 });
+
+export { app };

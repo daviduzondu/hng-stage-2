@@ -1,7 +1,5 @@
 import pg from 'pg';
 
-
-
 const pool = new pg.Pool({
     user: process.env.PGUSER,
     host: process.env.PGHOST,
@@ -14,21 +12,21 @@ const pool = new pg.Pool({
 const client = await pool.connect();
 
 export async function begin() {
-    return client.query('BEGIN');
+    return (client).query('BEGIN');
 }
 
-export function query(text: string, params: any[]) {
-    return client.query(text, params);
+export async function query(text: string, params: any[]) {
+    return (client).query(text, params);
 }
 
 export async function commit() {
-    return client.query("COMMIT");
+    return (client).query("COMMIT");
 }
 
 export async function rollback() {
-    return client.query('ROLLBACK');
+    return (client).query('ROLLBACK');
 }
 
 export async function release() {
-    client.release();
+    (client).release();
 }
