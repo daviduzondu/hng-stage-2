@@ -6,10 +6,9 @@ import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
 import organisationRouter from './routes/organisation.route.js';
 import { pick } from './utils/pick.js';
-import * as client from '../src/db/index.js';
+import * as client from './db/index.js';
 import { readFile } from 'fs/promises';
 import path from 'path';
-import { exec } from 'child_process';
 
 // @ts-ignore
 const app: Express = express();

@@ -1,9 +1,7 @@
 import 'dotenv/config.js';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import request from 'supertest';
-// import { app } from '../src/index.js';
 import { faker } from '@faker-js/faker';
-import { pick } from '../src/utils/pick.js';
 import { getAccessToken } from '../src/utils/generateAccessToken.js';
 
 const baseUrl = 'https://hng-stage-2-production-cb35.up.railway.app';
