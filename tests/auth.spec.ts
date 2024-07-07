@@ -6,7 +6,7 @@ import { faker } from '@faker-js/faker';
 import { app } from '../src/index.js';
 import { getAccessToken } from '../src/utils/generateAccessToken.js';
 
-const baseUrl = "https://hng-stage-2-production-cb35.up.railway.app";
+let baseUrl = "https://hng-stage-2-production-cb35.up.railway.app";
 
 const endpoints = {
     REGISTER_USER: '/api/auth/register',
