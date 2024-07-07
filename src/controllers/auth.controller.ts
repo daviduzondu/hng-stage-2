@@ -31,8 +31,18 @@ export async function registerUser(req: Request, res: Response, next: NextFuncti
         });
     } catch (error: any) {
         client.rollback();
-        if (error.name === 'ApiError') return next(error);
-        next(new ApiError('Registration unsuccessful', 400, 'Bad request'))
+
+        if (error.name === 'ApiError') return res.status(error.statusCode).json({
+            status: "Bad request",
+            message: error.message,
+            statusCode: error.statusCode
+        });
+
+        return res.status(400).json({
+            "status": "Bad request",
+            "message": "Registration unsuccessful",
+            "statusCode": 400
+        });
     }
 }
 
@@ -61,7 +71,16 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             }
         })
     } catch (error: any) {
-        if (error.name === 'ApiError') return next(error);
-        next(new ApiError('Authentication failed', 401, 'Bad request'));
+        if (error.name === 'ApiError') return res.status(error.statusCode).json({
+            status: "Bad request",
+            message: error.message,
+            statusCode: error.statusCode
+        })
+
+        return res.status(401).json({
+            "status": "Bad request",
+            "message": "Authentication failed",
+            "statusCode": 401
+        })
     }
 }
