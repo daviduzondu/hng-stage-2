@@ -158,7 +158,7 @@ describe('User Login', () => {
             .send({ email: testUser1Credentials.email, password: 'incorrectpassword' });
 
         expect(res.status).toBe(401);
-        expect(res.body).toHaveProperty('status', 'error');
+        expect(res.body).toHaveProperty('status', 'Bad request');
         expect(res.body).toHaveProperty('message', 'Authentication failed');
     });
 });
