@@ -7,6 +7,7 @@ import userRouter from './routes/user.route.js';
 import organisationRouter from './routes/organisation.route.js';
 import { pick } from './utils/pick.js';
 
+// @ts-ignore
 const app: Express = express();
 const port: number = Number(process.env.PORT) || 2000;
 app.use(bodyParser.json());

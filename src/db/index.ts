@@ -1,12 +1,11 @@
 import pg from 'pg';
 
 const pool = new pg.Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    // @ts-ignore
-    port: process.env.PGPORT
+    user: process.env.PGUSER || 'postgres',
+    host: process.env.PGHOST || 'localhost',
+    database: process.env.PGDATABASE || 'postgres',
+    password: process.env.PGPASSWORD || 'postgres',
+    port: Number(process.env.PGPORT) || 5432
 });
 
 const client = await pool.connect();
