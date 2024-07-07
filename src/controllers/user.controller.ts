@@ -25,6 +25,6 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
         })
     } catch (error: any) {
         console.error(error);
-        next(new ApiError(error.message, 401, 'Bad request'))
+        return next(new ApiError(error.message, 401, 'Bad request'))
     }
 }

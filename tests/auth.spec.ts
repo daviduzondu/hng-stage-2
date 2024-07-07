@@ -110,7 +110,7 @@ describe('User Registration and Organization Access', () => {
             .send(Object.assign(testUser2Credentials, { email: testUser1Credentials.email }));
 
         expect(response.status).toBe(422);
-        expect(response.body).toHaveProperty('message', 'Email already exists');
+        expect(response.body.message).toBe('Email already exists');
     });
 
 
@@ -174,7 +174,7 @@ describe('User Login', () => {
         const res = await request(baseUrl)
             .post(endpoints.LOGIN)
             .send({ email: testUser1Credentials.email, password: 'incorrectpassword' });
-        console.log(res);
+        console.log(res.body);
         expect(res.status).toBe(401);
         expect(res.body).toHaveProperty('status', 'Bad request');
         expect(res.body).toHaveProperty('message', 'Authentication failed');

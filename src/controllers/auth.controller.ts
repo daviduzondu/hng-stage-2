@@ -31,7 +31,7 @@ export async function registerUser(req: Request, res: Response, next: NextFuncti
         });
     } catch (error: any) {
         client.rollback();
-        if (error.name === 'ApiError') next(error);
+        if (error.name === 'ApiError') return next(error);
         next(new ApiError('Registration unsuccessful', 400, 'Bad request'))
     }
 }
@@ -61,7 +61,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             }
         })
     } catch (error: any) {
-        if (error.name === 'ApiError') next(error);
+        if (error.name === 'ApiError') return next(error);
         next(new ApiError('Authentication failed', 401, 'Bad request'));
     }
 }

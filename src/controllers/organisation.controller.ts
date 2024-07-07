@@ -18,7 +18,7 @@ export async function getOrganisations(req: Request, res: Response, next: NextFu
             }
         });
     } catch (error: any) {
-        next(error);
+        return next(error);
     }
 }
 
@@ -35,7 +35,7 @@ export async function getOrganisation(req: Request, res: Response, next: NextFun
             data: org
         })
     } catch (error) {
-        next(error);
+        return next(error);
     }
 }
 
@@ -59,7 +59,7 @@ export async function createOrganisation(req: Request, res: Response, next: Next
         });
     } catch (error: any) {
         await client.rollback();
-        next(new ApiError('Client error', 400, 'Bad Request'));
+        return next(new ApiError('Client error', 400, 'Bad Request'));
     }
 }
 
@@ -76,6 +76,6 @@ export async function addUserToOrg(req: Request, res: Response, next: NextFuncti
             "message": "User added to organisation successfully",
         })
     } catch (error) {
-        next(error);
+        return next(error);
     }
 }
