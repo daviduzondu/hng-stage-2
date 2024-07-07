@@ -1,12 +1,12 @@
 import 'dotenv/config.js';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import request from 'supertest';
-// import { app } from '../src/index.js';
+import { app } from '../src/index.js';
 import { faker } from '@faker-js/faker';
 import { pick } from '../src/utils/pick.js';
 import { getAccessToken } from '../src/utils/generateAccessToken.js';
 
-const baseUrl = 'https://hng-stage-2-production-cb35.up.railway.app';
+const baseUrl = app;
 
 const endpoints = {
     REGISTER_USER: '/api/auth/register',
@@ -75,9 +75,20 @@ describe('User Registration and Organization Access', () => {
         user2AccessToken = regUser2Response.body.data.accessToken;
     });
 
+
     it(`Should register user1 successfully with default organisation`, async () => {
         expect(user1AccessToken).toBeDefined();
         expect(user1AccessToken.length).toBeGreaterThan(0);
+    });
+
+    it(`Should fail to register two users due to duplicate email`, async () => {
+        // Attempt to register another with the same email
+        const response = await request(baseUrl)
+            .post(endpoints.REGISTER_USER)
+            .send(Object.assign(testUser2Credentials, { email: testUser1Credentials.email }));
+
+        expect(response.status).toBe(422);
+        expect(response.body).toHaveProperty('message', 'Email already exists');
     });
 
     it(`Should register user2 successfully with default organisation`, async () => {
@@ -85,15 +96,15 @@ describe('User Registration and Organization Access', () => {
         expect(user2AccessToken.length).toBeGreaterThan(0);
     });
 
-    it(`Should fail to register user1 again with 400 error`, async () => {
-        const res = await request(baseUrl)
-            .post(endpoints.REGISTER_USER)
-            .send(testUser1Credentials);
+    // it(`Should fail to register user1 again with 400 error`, async () => {
+    //     const res = await request(baseUrl)
+    //         .post(endpoints.REGISTER_USER)
+    //         .send(testUser1Credentials);
 
-        expect(res.status).toBe(400);
-        expect(res.body).toHaveProperty('status', 'Bad request');
-        expect(res.body).toHaveProperty('message', 'Registration unsuccessful');
-    });
+    //     expect(res.status).toBe(400);
+    //     expect(res.body).toHaveProperty('status', 'Bad request');
+    //     expect(res.body).toHaveProperty('message', 'Registration unsuccessful');
+    // });
 
     it(`Should fail if required fields are missing`, async () => {
         const incompleteUser = pick(testUser1Credentials, ['firstName', 'lastName', 'password']);
@@ -124,6 +135,8 @@ describe('User Registration and Organization Access', () => {
         expect(fetchUser1OrgResponse.body.data.organisations.length).toBe(1); // Assuming user1 has only one organisation
         expect(fetchUser1OrgResponse.body.data.organisations[0].name).not.toEqual(`${testUser2Credentials.firstName}'s Organisation`);
     });
+
+
 
     // it('Ensure user2 cannot see user1\'s organisation data', async () => {
     //     const fetchUser2OrgResponse = await request(baseUrl)

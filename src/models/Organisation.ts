@@ -50,7 +50,7 @@ class Organisation extends Model implements OrgInterface {
 
         // Check that user is not already in organisation
         const orgs = (await Organisation.getOrgs(userId)).rows;
-        if (orgs.find(x => x.organisations_orgId === orgId)) throw new ApiError(`User with id ${userId} already in organisation`, 409, 'Bad request');
+        if (orgs.find(x => x.organisations_orgId === orgId)) throw new ApiError(`User with id ${userId} already in organisation`, 401, 'Bad request');
 
         // Add the userId and orgId to the junction table
         return await client.query(`INSERT INTO users_organisations VALUES($1, $2)`, [userId, orgId]);

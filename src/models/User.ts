@@ -30,7 +30,7 @@ class User extends Model implements UserInterface {
         const { rows } = await User.findUserByEmail(this.email);
 
         if (rows.length > 0) {
-            throw new ApiError("Email already taken", 409, 'Bad request');
+            throw new ApiError("Email already exists", 422, 'ApiError');
         }
 
         const result = await db.query('INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [this.userId, this.firstName, this.lastName, this.email, this.password, this.phone]);

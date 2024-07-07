@@ -29,8 +29,9 @@ export async function registerUser(req: Request, res: Response, next: NextFuncti
                 user
             }
         });
-    } catch (error) {
+    } catch (error: any) {
         client.rollback();
+        if (error.name === 'ApiError') next(error);
         next(new ApiError('Registration unsuccessful', 400, 'Bad request'))
     }
 }
@@ -46,7 +47,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         // Validate password
         const passwordMatch = await bcrypt.compare(password, hashedPw);
 
-        if (!passwordMatch) throw new ApiError("Incorrect password", 401, 'Bad request');
+        if (!passwordMatch) throw new ApiError("Incorrect password", 422, 'Bad request');
 
         const accessToken = getAccessToken(email, userId)
         res.status(200).json({
