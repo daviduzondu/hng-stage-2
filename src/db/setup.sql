@@ -1,4 +1,4 @@
-CREATE TABLE "users" (
+CREATE TABLE IF NOT EXISTS "users" (
   "userId" VARCHAR(255) UNIQUE PRIMARY KEY,
   "firstName" VARCHAR(255) NOT NULL,
   "lastName" VARCHAR(255) NOT NULL,
@@ -7,13 +7,13 @@ CREATE TABLE "users" (
   "phone" VARCHAR(255)
 );
 
-CREATE TABLE "organisations" (
+CREATE TABLE IF NOT EXISTS "organisations" (
   "orgId" VARCHAR(255) UNIQUE,
   "name" VARCHAR(255) NOT NULL,
   "description" VARCHAR(255)
 );
 
-CREATE TABLE "users_organisations" (
+CREATE TABLE IF NOT EXISTS "users_organisations" (
   "users_userId" VARCHAR(255),
   "organisations_orgId" VARCHAR(255),
   PRIMARY KEY ("users_userId", "organisations_orgId")

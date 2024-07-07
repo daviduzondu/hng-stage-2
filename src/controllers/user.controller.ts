@@ -6,8 +6,12 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
         // @ts-ignore
-        const { userId, firstName, email, lastName, phone } = req.user;
+        const user = (await User.getUserOrUserInOrg(id)).rows[0];
 
+
+        if (!user) throw new Error('Failed to retrieve user with id ' + id);
+        
+        const { userId, firstName, email, lastName, phone } = user;
         res.status(200).json({
             "status": "success",
             "message": "User found!",
