@@ -21,7 +21,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Auth router
-app.use('/api/auth', authRouter);
+app.use('/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/organisations', organisationRouter);
 

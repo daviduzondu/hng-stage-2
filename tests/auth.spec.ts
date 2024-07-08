@@ -9,8 +9,8 @@ import { getAccessToken } from '../src/utils/generateAccessToken.js';
 let baseUrl = "https://hng-stage-2-production-cb35.up.railway.app";
 
 const endpoints = {
-    REGISTER_USER: '/api/auth/register',
-    LOGIN: '/api/auth/login',
+    REGISTER_USER: '/auth/register',
+    LOGIN: '/auth/login',
     GET_USER_ORGS: '/api/organisations/'
 };
 
